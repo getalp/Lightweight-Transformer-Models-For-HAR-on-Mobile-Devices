@@ -158,7 +158,7 @@ To run HART/MobileHART in a leave one position out pipeline with the RealWorld d
 python main.py --architecture HART --dataset HHAR --positionDevice nexus4 --localEpoch 200 --batch_size 64
 ```
 
-Replace 'nexus4' with one of the below to train on different a position 
+Replace 'nexus4' with one of the below to train on different a device 
 
 ```
 nexus4, lgwatch, s3, s3mini, gear, samsungold
