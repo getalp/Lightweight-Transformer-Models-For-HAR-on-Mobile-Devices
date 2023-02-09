@@ -89,7 +89,7 @@ Sample launch commands provided in the following sections
 
 ### 3.1 Importing HART or MobileHART to your project
 
-HART and MobileHART are packaged as a keras sequentail model.
+HART and MobileHART are packaged as a keras sequential model.
 
 To use our models with their default hyperparameters, please import and add the following code:
 
