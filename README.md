@@ -39,16 +39,15 @@ If our project is helpful for your research, please consider citing :
   * [2.1 Dependencies](#21-dependencies)
   * [2.2 Data](#22-data)
 * [3. Quick Start](#3-quick-start)
-  * [3.1 Importing HART or MobileHART to your project](#31-Importing HART or MobileHART to your project)
-  * [3.2 Running HART in our provided pipeline](#32-Running HART in our provided pipeline)
-  * [3.3 Running MobileHART in our provided pipeline](#33-Running MobileHART in our provided pipeline)
-
+  * [3.1 Importing HART or MobileHART to your project](#31-Importing-HART-or-MobileHART-to-your-project)
+  * [3.2 Running HART in our provided pipeline](#32-Running-HART-in-our-provided-pipeline)
+  * [3.3 Running MobileHART in our provided pipeline](#33-Running-MobileHART-in-our-provided-pipeline)
 * [4. Position-Wise and Device-Wise Evaluation](#4-evaluation)
   * [4.1 Unsupervised object discovery](#41-unsupervised-object-discovery)
   * [4.2 Unsupervised saliency detection](#42-unsupervised-saliency-detection)
   * [4.3 Weakly supervised object detection](#43-weakly-supervised-object-detection)
 * [5. Results](#5-Results)
-* [5. Acknowledgement](#5-acknowledgement)
+* [6. Acknowledgement](#5-acknowledgement)
 
 
 ## 1. Updates
