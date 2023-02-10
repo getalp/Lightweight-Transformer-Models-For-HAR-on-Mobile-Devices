@@ -82,7 +82,7 @@ Please run all scripts in the 'datasets' folder.
 
 ## 3. Quick Start
 
-After running all or the desired datasets for usage in the DATA scripts in the dataset folder, launch either the jupyter notebook or python script for the starting the training pipeline.
+After running all or the desired datasets for usage in the DATA scripts in the dataset folder, launch either the jupyter notebook or python script to start the training pipeline.
 
 Sample launch commands provided in the following sections
 
