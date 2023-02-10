@@ -71,7 +71,7 @@ Our baseline experiments were conducted on a Debian GNU/Linux 10 (buster) machin
 
 CPU : Intel(R) Xeon(R) CPU E5-2623 v4 @ 2.60GHz
 
-GPU : Nvidia GeForce Titan Xp
+GPU : Nvidia GeForce Titan Xp 12GB VRAM
 
 Memory: 80GB 
 
