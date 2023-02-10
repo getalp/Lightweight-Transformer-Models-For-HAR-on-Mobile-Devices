@@ -76,6 +76,33 @@ See scripts in dataset folders. e.g, for the UCI dataset, run DATA_UCI.py
 For running the 'Combined' dataset training and evaluation pipeline, all datasets must first be downloaded and processed.
 Please run all scripts in the 'datasets' folder.
 
+Tip: Manually downloading the datasets and placing them in the 'datasets/dataset' folder may be a good alternative for stabiltiy if the download pipeline keeps failing VIA the provided scripts.
+
+UCI
+```
+https://archive.ics.uci.edu/ml/datasets/human+activity+recognition+using+smartphones
+```
+
+MotionSense
+```
+https://github.com/mmalekzadeh/motion-sense/tree/master/data
+```
+
+HHAR
+```
+http://archive.ics.uci.edu/ml/datasets/Heterogeneity+Activity+Recognition
+```
+
+RealWorld
+```
+https://www.uni-mannheim.de/dws/research/projects/activity-recognition/#dataset_dailylog
+```
+
+SHL Preview
+```
+http://www.shl-dataset.org/download/
+```
+
 ## 3. Quick Start
 
 After running all or the desired datasets for usage in the DATA scripts in the dataset folder, launch either the jupyter notebook or python script to start the training pipeline.
