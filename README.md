@@ -43,8 +43,8 @@ If our project is helpful for your research, please consider citing :
   * [3.2 Running HART in our provided pipeline](#32-Running-HART-in-our-provided-pipeline)
   * [3.3 Running MobileHART in our provided pipeline](#33-Running-MobileHART-in-our-provided-pipeline)
 * [4. Position-Wise and Device-Wise Evaluation](#4-evaluation)
-  * [4.1 Unsupervised object discovery](#41-unsupervised-object-discovery)
-  * [4.2 Unsupervised saliency detection](#42-unsupervised-saliency-detection)
+  * [4.1 Position-Wise evaluation with the RealWorld Dataset](#41-Position-Wise-evaluation-with-the-RealWorld-Dataset)
+  * [4.2 Device-Wise evaluation with the HHAR Dataset](#42-Device-Wise-evaluation-with-the-HHAR-Dataset)
 * [5. Results](#5-Results)
 * [6. Acknowledgement](#5-acknowledgement)
 
