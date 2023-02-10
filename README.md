@@ -70,7 +70,9 @@ pip install -r requirements.txt
 Our baseline experiments were conducted on a Debian GNU/Linux 10 (buster) machine with the following specs:
 
 CPU : Intel(R) Xeon(R) CPU E5-2623 v4 @ 2.60GHz
+
 GPU : Nvidia GeForce Titan Xp
+
 Memory: 80GB 
 
 
