@@ -45,7 +45,6 @@ If our project is helpful for your research, please consider citing :
 * [4. Position-Wise and Device-Wise Evaluation](#4-evaluation)
   * [4.1 Unsupervised object discovery](#41-unsupervised-object-discovery)
   * [4.2 Unsupervised saliency detection](#42-unsupervised-saliency-detection)
-  * [4.3 Weakly supervised object detection](#43-weakly-supervised-object-detection)
 * [5. Results](#5-Results)
 * [6. Acknowledgement](#5-acknowledgement)
 
