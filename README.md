@@ -151,7 +151,7 @@ chest, forearm, head, shin, thigh, upperarm, waist
 ```
 ### 4.2 Device-Wise evaluation with the HHAR Dataset
 
-To run HART/MobileHART in a leave one position out pipeline with the RealWorld dataset, please launch:
+To run HART/MobileHART in a leave one device out pipeline with the HHAR dataset, please launch:
 
 ```
 python main.py --architecture HART --dataset HHAR --positionDevice nexus4 --localEpoch 200 --batch_size 64
