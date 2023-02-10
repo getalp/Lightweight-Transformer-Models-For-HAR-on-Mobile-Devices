@@ -3,15 +3,11 @@ Tensorflow implementation of **HART/MobileHART**:
 
 
 **Lightweight Transformers for Human Activity Recognition on
-Mobile Devices**
-
+Mobile Devices** [[Paper](https://arxiv.org/pdf/2209.11750.pdf)]
 
 **Transformer-based Models to Deal with Heterogeneous Environments in Human Activity Recognition**
 
 *[Sannara Ek](https://scholar.google.com/citations?user=P1F8sQgAAAAJ&hl=en&oi=ao), [François Portet](https://lig-membres.imag.fr/portet/home.php), [Philippe Lalanda](https://lig-membres.imag.fr/lalanda/)*
-
-
-[[Paper](https://arxiv.org/pdf/2209.11750.pdf)]
 
 
 <p align="center">
