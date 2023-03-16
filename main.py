@@ -70,7 +70,7 @@ architecture = "HART"
 # MobileHART, HART
 
 # RealWorld,HHAR,UCI,SHL,MotionSense, COMBINED
-dataSetName = 'MotionSense'
+dataSetName = 'UCI'
 
 #BALANCED, UNBALANCED
 dataConfig = "BALANCED"
@@ -393,9 +393,9 @@ centralDevLabel = tf.one_hot(
 optimizer = tf.keras.optimizers.Adam(learningRate)
 
 if(architecture == "HART"):
-    model_classifier = model.mobileHART_XS(input_shape,activityCount)
+    model_classifier = model.HART(input_shape,activityCount)
 else:
-    model_classifier = model.HART(input_shape,activityCount, convKernels = convKernels)
+    model_classifier = model.mobileHART_XS(input_shape,activityCount, convKernels = convKernels)
 model_classifier.compile(
     optimizer=optimizer,
     loss=tf.keras.losses.CategoricalCrossentropy(label_smoothing=0.1),
