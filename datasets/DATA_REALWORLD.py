@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 
 # Uncomment if running on googlecolab 
@@ -11,7 +11,7 @@
 # %cd drive/MyDrive/PerCom2021-FL-master/
 
 
-# In[2]:
+# In[ ]:
 
 
 import numpy as np
@@ -28,7 +28,7 @@ import resampy
 np.random.seed(0)
 
 
-# In[3]:
+# In[ ]:
 
 
 # fomating data to adjust for dataset sensor errors
@@ -113,7 +113,7 @@ def download_url(url, save_path, chunk_size=128):
             fd.write(chunk)
 
 
-# In[4]:
+# In[ ]:
 
 
 # definign activities and orientations of REALWORLD dataset
@@ -124,7 +124,7 @@ orientations = ['chest','forearm','head','shin','thigh','upperarm','waist']
 # orientations = ['waist']
 
 
-# In[5]:
+# In[ ]:
 
 
 orientationKeyMap = dict() 
@@ -132,7 +132,7 @@ for index,value in enumerate(orientations):
     orientationKeyMap[value] = index
 
 
-# In[6]:
+# In[ ]:
 
 
 # download and unzipping dataset
@@ -155,33 +155,33 @@ else:
     print("Data already extracted in " + data_directory2)
 
 
-# In[7]:
+# In[ ]:
 
 
 # # unzipping REALWORLD dataset
-# for id in range(1,16):
-#     id = str(id)
-#     for activity in activities:
-#         for sensor in ["acc","gyr"]:
-#             dirName = sensor
-#             if(sensor == "gyr"):
-#                 dirName = "Gyroscope"
-#             with zipfile.ZipFile('dataset/realworld2016_dataset/proband'+id+'/data/'+sensor+'_'+str(activity)+'_csv.zip', 'r') as zip_ref:
-#                 os.makedirs('dataset/REALWORLD/'+dirName+'/'+id, exist_ok=True)
-#                 zip_ref.extractall('dataset/REALWORLD/'+dirName+'/'+id)
+for id in range(1,16):
+    id = str(id)
+    for activity in activities:
+        for sensor in ["acc","gyr"]:
+            dirName = sensor
+            if(sensor == "gyr"):
+                dirName = "Gyroscope"
+            with zipfile.ZipFile('dataset/realworld2016_dataset/proband'+id+'/data/'+sensor+'_'+str(activity)+'_csv.zip', 'r') as zip_ref:
+                os.makedirs('dataset/REALWORLD/'+dirName+'/'+id, exist_ok=True)
+                zip_ref.extractall('dataset/REALWORLD/'+dirName+'/'+id)
 
-#             for i in range (1,4):
-#                 if os.path.exists('dataset/REALWORLD/'+dirName+'/'+id+'/'+sensor+'_'+str(activity)+'_'+str(i)+'_csv.zip'):
-#                     with zipfile.ZipFile('dataset/REALWORLD/'+dirName+'/'+id+'/'+sensor+'_'+str(activity)+'_'+str(i)+'_csv.zip', 'r') as zip_ref:
-#                         zip_ref.extractall('dataset/REALWORLD/'+dirName+'/'+id)
-#                     os.remove('dataset/REALWORLD/'+dirName+'/'+id+'/'+sensor+'_'+str(activity)+'_'+str(i)+'_csv.zip') 
-#             if os.path.exists('dataset/REALWORLD/'+dirName+'/'+id+'/'+sensor+'_'+str(activity)+'_csv.zip'):
-#                 with zipfile.ZipFile('dataset/REALWORLD/'+dirName+'/'+id+'/'+sensor+'_'+str(activity)+'_csv.zip', 'r') as zip_ref:
-#                     zip_ref.extractall('dataset/REALWORLD/'+dirName+'/'+id)
-#                 os.remove('dataset/REALWORLD/'+dirName+'/'+id+'/'+sensor+'_'+str(activity)+'_csv.zip') 
+            for i in range (1,4):
+                if os.path.exists('dataset/REALWORLD/'+dirName+'/'+id+'/'+sensor+'_'+str(activity)+'_'+str(i)+'_csv.zip'):
+                    with zipfile.ZipFile('dataset/REALWORLD/'+dirName+'/'+id+'/'+sensor+'_'+str(activity)+'_'+str(i)+'_csv.zip', 'r') as zip_ref:
+                        zip_ref.extractall('dataset/REALWORLD/'+dirName+'/'+id)
+                    os.remove('dataset/REALWORLD/'+dirName+'/'+id+'/'+sensor+'_'+str(activity)+'_'+str(i)+'_csv.zip') 
+            if os.path.exists('dataset/REALWORLD/'+dirName+'/'+id+'/'+sensor+'_'+str(activity)+'_csv.zip'):
+                with zipfile.ZipFile('dataset/REALWORLD/'+dirName+'/'+id+'/'+sensor+'_'+str(activity)+'_csv.zip', 'r') as zip_ref:
+                    zip_ref.extractall('dataset/REALWORLD/'+dirName+'/'+id)
+                os.remove('dataset/REALWORLD/'+dirName+'/'+id+'/'+sensor+'_'+str(activity)+'_csv.zip') 
 
 
-# In[8]:
+# In[ ]:
 
 
 def downSampleLowPass(toDownSampleData,factor):
@@ -191,7 +191,7 @@ def downSampleLowPass(toDownSampleData,factor):
     return np.dstack((accX,accY,accZ)).squeeze()
 
 
-# In[9]:
+# In[ ]:
 
 
 # Reading and processing all data
@@ -225,7 +225,6 @@ for orientation in orientations:
                 gyroDataLength = len(tempGyro[i])
                 difference = accDataLength - gyroDataLength
                 differenceAbs = abs(difference)
-
                 differenceGyro = gyroDataLength - accDataLength
                 if(differenceGyro > 1000):
                     print("Client Number "+str(k) +" Activity : "+str(activity) + " Orientation :"+str(orientation))
@@ -266,7 +265,7 @@ for orientation in orientations:
     clientsLabelByOrientation.append(np.asarray(yListClient))
 
 
-# In[10]:
+# In[ ]:
 
 
 # conversion to numpy array
@@ -275,7 +274,7 @@ clientsGyroDataByOrientation = np.asarray(clientsGyroDataByOrientation)
 clientsLabelByOrientation = np.asarray(clientsLabelByOrientation)
 
 
-# In[11]:
+# In[ ]:
 
 
 # stacking all partcipants client
@@ -283,7 +282,7 @@ allAcc = np.vstack((np.ravel(clientsAccDataByOrientation)))
 allGyro = np.vstack((np.ravel(clientsGyroDataByOrientation)))
 
 
-# In[12]:
+# In[ ]:
 
 
 # Calculating features
@@ -294,7 +293,7 @@ meanGyro = np.mean(allGyro)
 stdGyro = np.std(allGyro)
 
 
-# In[13]:
+# In[ ]:
 
 
 # channel-wise z-normalization
@@ -302,7 +301,7 @@ normalizedAcc = (clientsAccDataByOrientation - meanAcc)/stdAcc
 normalizedGyro = (clientsGyroDataByOrientation - meanGyro)/stdGyro
 
 
-# In[14]:
+# In[ ]:
 
 
 stackedOrientationData = []
@@ -311,7 +310,7 @@ for normAcc,normGyro in zip(normalizedAcc,normalizedGyro):
 stackedOrientationData = np.asarray(stackedOrientationData)
 
 
-# In[19]:
+# In[ ]:
 
 
 dataName = 'RealWorld'
