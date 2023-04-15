@@ -329,7 +329,7 @@ class threeSensorPatches(layers.Layer):
 
         accProjections = self.accProjection(inputData[:,:,:3])
         gyroProjections = self.gyroProjection(inputData[:,:,3:6])
-        magProjections = self.gyroProjection(inputData[:,:,6:])
+        magProjections = self.magProjection(inputData[:,:,6:])
 
         Projections = tf.concat((accProjections,gyroProjections,magProjections),axis=2)
         return Projections
@@ -357,8 +357,8 @@ class fourSensorPatches(layers.Layer):
 
         accProjections = self.accProjection(inputData[:,:,:3])
         gyroProjections = self.gyroProjection(inputData[:,:,3:6])
-        magProjection = self.gyroProjection(inputData[:,:,6:9])
-        altProjection = self.gyroProjection(inputData[:,:,9:])
+        magProjection = self.magProjection(inputData[:,:,6:9])
+        altProjection = self.altProjection(inputData[:,:,9:])
 
         Projections = tf.concat((accProjections,gyroProjections,magProjection,altProjection),axis=2)
         return Projections
