@@ -70,7 +70,7 @@ architecture = "HART"
 # MobileHART, HART
 
 # RealWorld,HHAR,UCI,SHL,MotionSense, COMBINED
-dataSetName = 'UCI'
+dataSetName = 'RealWorld'
 
 #BALANCED, UNBALANCED
 dataConfig = "BALANCED"
@@ -84,7 +84,7 @@ segment_size = 128
 # input channel count
 num_input_channels = 6
 
-learningRate = 5e-4
+learningRate = 3e-4
 
 # model drop out rate
 dropout_rate = 0.3
@@ -96,7 +96,7 @@ frameLength = 16
 
 timeStep = 16
 
-positionDevice = ''
+positionDevice = 'chest'
 # ['chest','forearm','head','shin','thigh','upperarm','waist']
 # ['nexus4', 'lgwatch','s3', 's3mini','gear','samsungold']
 tokenBased = False
@@ -576,6 +576,14 @@ utils.plot_learningCurve(history,localEpoch,filepath)
 # In[ ]:
 
 
+totalLayer = len(model_classifier.layers)
+classTokenIndex = totalLayer - 4
+intermediateModel = utils.extract_intermediate_model_from_base_model(model_classifier,classTokenIndex)
+
+
+# In[ ]:
+
+
 perplexity = 30.0
 embeddings = intermediateModel.predict(centralTestData, batch_size=batch_size)
 del intermediateModel
@@ -645,4 +653,10 @@ print("Total Number of Parapmeters : "+str(model_classifier.count_params()))
 
 
 print("Training Done!")
+
+
+# In[ ]:
+
+
+
 
