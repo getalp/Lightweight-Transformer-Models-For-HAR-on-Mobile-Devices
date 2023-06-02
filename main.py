@@ -96,7 +96,7 @@ frameLength = 16
 
 timeStep = 16
 
-positionDevice = 'chest'
+positionDevice = ''
 # ['chest','forearm','head','shin','thigh','upperarm','waist']
 # ['nexus4', 'lgwatch','s3', 's3mini','gear','samsungold']
 tokenBased = False
