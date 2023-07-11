@@ -113,6 +113,8 @@ http://www.shl-dataset.org/download/
 
 ## 3. Quick Start
 
+Due to constraints with Tensorflow, the model currently can only be trained on GPU and will not work when trained with CPU.
+
 After running all or the desired datasets for usage in the DATA scripts in the dataset folder, launch either the jupyter notebook or python script to start the training pipeline.
 
 Sample launch commands provided in the following sections
