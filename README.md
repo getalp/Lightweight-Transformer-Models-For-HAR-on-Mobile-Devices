@@ -16,15 +16,13 @@ Mobile Devices** [[Paper](https://arxiv.org/pdf/2209.11750.pdf)]
 
 If our project is helpful for your research, please consider citing : 
 ``` 
-@misc{https://doi.org/10.48550/arxiv.2209.11750,
-  doi = {10.48550/ARXIV.2209.11750},
-  url = {https://arxiv.org/abs/2209.11750},
-  author = {EK, Sannara and Portet, François and Lalanda, Philippe},
-  keywords = {Computer Vision and Pattern Recognition (cs.CV), Artificial Intelligence (cs.AI), Machine Learning (cs.LG), FOS: Computer and information sciences, FOS: Computer and information sciences},
-  title = {Lightweight Transformers for Human Activity Recognition on Mobile Devices},
-  publisher = {arXiv},
-  year = {2022},
-  copyright = {arXiv.org perpetual, non-exclusive license}
+@article{ek2023transformer,
+  title={Transformer-based models to deal with heterogeneous environments in Human Activity Recognition},
+  author={Ek, Sannara and Portet, Fran{\c{c}}ois and Lalanda, Philippe},
+  journal={Personal and Ubiquitous Computing},
+  pages={1--14},
+  year={2023},
+  publisher={Springer}
 }
 ```
 
