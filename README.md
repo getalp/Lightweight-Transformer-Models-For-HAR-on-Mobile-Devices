@@ -175,7 +175,7 @@ To run HART/MobileHART in a leave one position out pipeline with the RealWorld d
 python main.py --architecture HART --dataset RealWorld --positionDevice chest --localEpoch 200 --batch_size 64
 ```
 
-Replace 'chest' with one of the below to train on different a position 
+Replace 'chest' with one of the below to test on different a position 
 
 ```
 chest, forearm, head, shin, thigh, upperarm, waist
@@ -188,7 +188,7 @@ To run HART/MobileHART in a leave one device out pipeline with the HHAR dataset,
 python main.py --architecture HART --dataset HHAR --positionDevice nexus4 --localEpoch 200 --batch_size 64
 ```
 
-Replace 'nexus4' with one of the below to train on different a device 
+Replace 'nexus4' with one of the below to test on different a device 
 
 ```
 nexus4, lgwatch, s3, s3mini, gear, samsungold
