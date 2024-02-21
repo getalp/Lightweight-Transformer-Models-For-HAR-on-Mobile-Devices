@@ -7,7 +7,7 @@ Mobile Devices** [[Paper](https://arxiv.org/pdf/2209.11750.pdf)]
 
 **Transformer-based Models to Deal with Heterogeneous Environments in Human Activity Recognition** [[Paper](https://link.springer.com/article/10.1007/s00779-023-01776-3)]
 
-*[Sannara Ek](https://scholar.google.com/citations?user=P1F8sQgAAAAJ&hl=en&oi=ao), [François Portet](https://lig-membres.imag.fr/portet/home.php), [Philippe Lalanda](https://lig-membres.imag.fr/lalanda/)*
+*[Sannara Ek](https://sannaraek.github.io/), [François Portet](https://lig-membres.imag.fr/portet/home.php), [Philippe Lalanda](https://lig-membres.imag.fr/lalanda/)*
 
 
 <p align="center">
