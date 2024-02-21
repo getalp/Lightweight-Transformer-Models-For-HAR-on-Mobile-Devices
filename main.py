@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[ ]:
+# In[1]:
 
 
 import os
@@ -9,14 +9,14 @@ randomSeed = 1
 os.environ['PYTHONHASHSEED']=str(randomSeed)
 
 
-# In[ ]:
+# In[2]:
 
 
 import numpy as np
 import tensorflow as tf
 
 
-# In[ ]:
+# In[3]:
 
 
 from tensorflow.keras.optimizers import Adam
@@ -41,7 +41,7 @@ import matplotlib.gridspec as gridspec
 import __main__ as main
 
 
-# In[ ]:
+# In[4]:
 
 
 import model 
@@ -49,7 +49,7 @@ import utils
 from keras_flops import get_flops
 
 
-# In[ ]:
+# In[5]:
 
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -57,7 +57,7 @@ for gpu in gpus:
     tf.config.experimental.set_memory_growth(gpu, True)
 
 
-# In[ ]:
+# In[6]:
 
 
 # which CPU/GPU to use
@@ -84,13 +84,13 @@ segment_size = 128
 # input channel count
 num_input_channels = 6
 
-learningRate = 3e-4
+learningRate = 5e-3
 
 # model drop out rate
 dropout_rate = 0.3
 
 # local epoch
-localEpoch = 200
+localEpoch = 1
 # or 4 
 frameLength = 16
 
@@ -104,7 +104,7 @@ tokenBased = False
 measureEnergy = False
 
 
-# In[ ]:
+# In[7]:
 
 
 # hyperparameter for the model
@@ -118,7 +118,7 @@ filterAttentionHead = 4
 convKernels = [3, 7, 15, 31, 31, 31]
 
 
-# In[ ]:
+# In[8]:
 
 
 def add_fit_args(parser):
@@ -149,14 +149,14 @@ def add_fit_args(parser):
     return args
 
 
-# In[ ]:
+# In[9]:
 
 
 def is_interactive():
     return not hasattr(main, '__file__')
 
 
-# In[ ]:
+# In[10]:
 
 
 if not is_interactive():
@@ -190,7 +190,7 @@ if(positionDevice != ''):
     assert dataSetName == "RealWorld" or dataSetName == "HHAR"
 
 
-# In[ ]:
+# In[11]:
 
 
 # specifying activities and where the results will be stored 
@@ -239,7 +239,7 @@ tf.random.set_seed(randomSeed)
 random.seed(randomSeed)
 
 
-# In[ ]:
+# In[12]:
 
 
 if(dataSetName == "COMBINED"):
