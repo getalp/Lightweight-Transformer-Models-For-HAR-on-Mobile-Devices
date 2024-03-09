@@ -24,6 +24,7 @@ np.random.seed(0)
 import urllib.request
 import zipfile
 from scipy import signal
+import urllib.request
 
 
 # In[ ]:
@@ -67,7 +68,7 @@ def load_dataset(group, prefix='',position=''):
 	return x, y
 
 # download function for datasets
-def download_url(url, save_path, chunk_size=128):
+def download_url(url, save_path, chunk_size=8192):
     r = requests.get(url, stream=True)
     with open(save_path, 'wb') as fd:
         for chunk in r.iter_content(chunk_size=chunk_size):
@@ -78,7 +79,7 @@ def download_url(url, save_path, chunk_size=128):
 
 
 fileName = ["Activity recognition exp"]
-links = ["http://archive.ics.uci.edu/ml/machine-learning-databases/00344/Activity%20recognition%20exp.zip"]
+links = ["http://archive.ics.uci.edu/static/public/344/heterogeneity+activity+recognition.zip"]
 
 
 # In[ ]:
@@ -94,12 +95,17 @@ for i in range(len(fileName)):
         print("downloading "+str(fileName[i]))            
         download_url(links[i],data_directory)
         print("download done")
+    else:
+        print(str(fileName[i]) + " already downloaded")
+        
+    extract_directory = os.path.abspath("dataset/extracted/"+str(fileName[i]))
+    if not os.path.exists(extract_directory):
         print("extracting data...")
         with zipfile.ZipFile(data_directory, 'r') as zip_ref:
             zip_ref.extractall(os.path.abspath("dataset/extracted/"))
         print("data extracted")
     else:
-        print(str(fileName[i]) + " already downloaded")
+        print("data already extracted")
 
 
 # In[ ]:
@@ -324,9 +330,9 @@ for clientDeviceIndex, deviceName in enumerate(deviceCounts):
 # In[ ]:
 
 
-allProcessedData = np.asarray(list(allProcessedData.items()))[:,1]
-allProcessedLabel = np.asarray(list(allProcessedLabel.items()))[:,1]
-deviceIndex =  np.asarray(list(deviceIndex.items()))[:,1]
+allProcessedData = np.asarray(list(allProcessedData.items()),dtype=object)[:,1]
+allProcessedLabel = np.asarray(list(allProcessedLabel.items()),dtype=object)[:,1]
+deviceIndex =  np.asarray(list(deviceIndex.items()),dtype=object)[:,1]
 
 
 # In[ ]:
@@ -373,8 +379,6 @@ endIndex = 0
 for i in deviceSize:
     startIndex = endIndex
     endIndex += i
-#     print(startIndex)
-#     print(endIndex)
     deviceData = np.vstack(allProcessedData[startIndex:endIndex])
     deviceDataAcc = deviceData[:,:,:3].astype(np.float32)
     deviceDataGyro = deviceData[:,:,3:].astype(np.float32)

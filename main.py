@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[1]:
+# In[ ]:
 
 
 import os
@@ -9,14 +9,14 @@ randomSeed = 1
 os.environ['PYTHONHASHSEED']=str(randomSeed)
 
 
-# In[2]:
+# In[ ]:
 
 
 import numpy as np
 import tensorflow as tf
 
 
-# In[3]:
+# In[ ]:
 
 
 from tensorflow.keras.optimizers import Adam
@@ -41,7 +41,7 @@ import matplotlib.gridspec as gridspec
 import __main__ as main
 
 
-# In[4]:
+# In[ ]:
 
 
 import model 
@@ -49,7 +49,7 @@ import utils
 from keras_flops import get_flops
 
 
-# In[5]:
+# In[ ]:
 
 
 gpus = tf.config.experimental.list_physical_devices('GPU')
@@ -57,7 +57,7 @@ for gpu in gpus:
     tf.config.experimental.set_memory_growth(gpu, True)
 
 
-# In[6]:
+# In[ ]:
 
 
 # which CPU/GPU to use
@@ -104,7 +104,7 @@ tokenBased = False
 measureEnergy = False
 
 
-# In[7]:
+# In[ ]:
 
 
 # hyperparameter for the model
@@ -118,7 +118,7 @@ filterAttentionHead = 4
 convKernels = [3, 7, 15, 31, 31, 31]
 
 
-# In[8]:
+# In[ ]:
 
 
 def add_fit_args(parser):
@@ -149,14 +149,14 @@ def add_fit_args(parser):
     return args
 
 
-# In[9]:
+# In[ ]:
 
 
 def is_interactive():
     return not hasattr(main, '__file__')
 
 
-# In[10]:
+# In[ ]:
 
 
 if not is_interactive():
@@ -190,7 +190,7 @@ if(positionDevice != ''):
     assert dataSetName == "RealWorld" or dataSetName == "HHAR"
 
 
-# In[11]:
+# In[ ]:
 
 
 # specifying activities and where the results will be stored 
@@ -198,7 +198,7 @@ if(dataSetName == 'UCI'):
     ACTIVITY_LABEL = ['Walking', 'Upstair','Downstair', 'Sitting', 'Standing', 'Lying']
 elif(dataSetName == "RealWorld"):
     ACTIVITY_LABEL = ['Downstairs','Upstairs', 'Jumping','Lying', 'Running', 'Sitting', 'Standing', 'Walking']
-elif(dataSetName == "Motion_Sense"):
+elif(dataSetName == "MotionSense"):
     ACTIVITY_LABEL = ['Downstairs', 'Upstairs', 'Sitting', 'Standing', 'Walking', 'Jogging']
 elif(dataSetName == "HHAR"):
     ACTIVITY_LABEL = ['Sitting', 'Standing', 'Walking', 'Upstair', 'Downstairs', 'Biking']
@@ -239,17 +239,17 @@ tf.random.set_seed(randomSeed)
 random.seed(randomSeed)
 
 
-# In[12]:
+# In[ ]:
 
 
 if(dataSetName == "COMBINED"):
-    datasetList = ["UCI","RealWorld","HHAR", "Motion_Sense","SHL_128"]
+    datasetList = ["UCI","RealWorld","HHAR", "MotionSense","SHL_128"]
     ACTIVITY_LABEL = ['Walk', 'Upstair', 'Downstair', 'Sit', 'Stand', 'Lay', 'Jump','Run', 'Bike', 'Car', 'Bus', 'Train', 'Subway']
     activityCount = len(ACTIVITY_LABEL)
     UCI = [0,1,2,3,4,5]
     REALWORLD_CLIENT = [2,1,6,5,7,3,4,0]
     HHAR = [3,4,0,1,2,8]
-    Motion_Sense = [2,1,3,4,0,7]
+    MotionSense = [2,1,3,4,0,7]
     SHL = [4,0,7,8,9,10,11,12]
 
     centralTrainData = []
@@ -280,9 +280,9 @@ if(dataSetName == "COMBINED"):
         elif(datasetName == 'HHAR'):
             centralTrainLabelAligned.append(np.hstack([HHAR[labelIndex] for labelIndex in centralTrainLabel[index]]))
             centralTestLabelAligned.append(np.hstack([HHAR[labelIndex] for labelIndex in centralTestLabel[index]]))
-        elif(datasetName == 'Motion_Sense'):
-            centralTrainLabelAligned.append(np.hstack([Motion_Sense[labelIndex] for labelIndex in centralTrainLabel[index]]))
-            centralTestLabelAligned.append(np.hstack([Motion_Sense[labelIndex] for labelIndex in centralTestLabel[index]]))
+        elif(datasetName == 'MotionSense'):
+            centralTrainLabelAligned.append(np.hstack([MotionSense[labelIndex] for labelIndex in centralTrainLabel[index]]))
+            centralTestLabelAligned.append(np.hstack([MotionSense[labelIndex] for labelIndex in centralTestLabel[index]]))
         else:
             centralTrainLabelAligned.append(np.hstack([SHL[labelIndex] for labelIndex in centralTrainLabel[index]]))
             centralTestLabelAligned.append(np.hstack([SHL[labelIndex] for labelIndex in centralTestLabel[index]]))
