@@ -128,8 +128,6 @@ def unionRange(a):
 
 bodyLocations = ["Bag","Hand","Hips","Torso"] 
 rootDirectory = 'dataset/extracted/SHLDataset_preview_v1'
-# if os.path.exists(rootDirectory+"/scripts"):
-#     os.remove(rootDirectory+"/scripts")
 dirs = [d for d in os.listdir(rootDirectory) if os.path.isdir(os.path.join(rootDirectory, d))]
 dirs.remove("scripts")
 
@@ -149,31 +147,18 @@ def processLabel(labels):
 
 
 def segmentData(accData,time_step,step):
-#     print(accData.shape)
     segmentAccData = list()
-    sliceIndex = np.arange(0, 256, 2)
     for i in range(0, accData.shape[0] - time_step,step):
-#         dataSlice = accData[i:i+time_step,:]
-#         dataSlice = np.delete(dataSlice,sliceIndex,  0)
-#         segmentAccData.append(dataSlice)
-#         segmentAccData.append(signal.decimate(accData[i:i+time_step,:],2))
         segmentAccData.append(accData[i:i+time_step,:])
 
 
     return np.asarray(segmentAccData)
 def segmentLabel(accData,time_step,step):
-#     print(accData.shape)
     segmentAccData = list()
     for i in range(0, accData.shape[0] - time_step,step):
         segmentAccData.append(processLabel(accData[i:i+time_step]))
         
     return np.asarray(segmentAccData)
-
-
-# In[ ]:
-
-
-# userData = {new_list: [] for new_list in range(4)}
 
 
 # In[ ]:
@@ -217,13 +202,11 @@ for userSubFolder in dirs:
             for bodyCount in range(len(bodyLocations)):
                 dataPosition[bodyCount]  = np.delete(dataPosition[bodyCount],np.s_[deleteRange[i][0]:deleteRange[i][1]],axis=0)
                 
-                
 #         segmenting data and removing null class frames       
         labelPosition = segmentLabel(labelPosition,256,128) 
         nullFrameToDelete = np.where(labelPosition == 0 )
         labelPosition = np.delete(labelPosition,nullFrameToDelete)
         labelPosition = labelPosition - 1
-#         labelPosition = np.concatenate((labelPosition, np.tile(labelPosition,len(bodyLocations)-1)))
         labelPosition = np.swapaxes(np.repeat(labelPosition[:,  np.newaxis], len(bodyLocations), axis=1),0,1)
         for bodyCount in range(len(bodyLocations)):
             dataPosition[bodyCount] = segmentData(dataPosition[bodyCount],256,128)
@@ -231,17 +214,6 @@ for userSubFolder in dirs:
             dataPosition[bodyCount] = downSampleLowPass(dataPosition[bodyCount])
         userData.append(dataPosition)
         userLabel.append(labelPosition)
-#     for bodyCount in range(len(bodyLocations)):
-#         userData.append((np.vstack((userData[bodyCount]))))
-#         userLabel.append((np.hstack((userLabel[bodyCount]))))
-#         userData.append(np.vstack(dataPosition))
-#         userLabel.append(labelPosition)
-        
-        
-#     for bodyCount in range(len(bodyLocations)):
-#         userLabel[bodyCount] = userLabel
-#     userLabel.append(np.hstack(userLabel))
-#     userData.append(np.vstack(userData))
 
 
 # In[ ]:
@@ -270,7 +242,7 @@ gyroStd =  np.std(combinedGyroData)
 # In[ ]:
 
 
-userData = np.asarray(userData)
+userData = np.asarray(userData, dtype=objec)
 
 
 # In[ ]:
@@ -282,7 +254,7 @@ for clientIndex in range(userData.shape[0]):
         userData[clientIndex][bodyIndex][:,:,:3] = (userData[clientIndex][bodyIndex][:,:,:3] - accMean)/accStd
         userData[clientIndex][bodyIndex][:,:,3:] = (userData[clientIndex][bodyIndex][:,:,3:] - gyroMean)/gyroStd
         labels.append(userLabel[clientIndex][bodyIndex])
-labels = np.asarray(labels)
+labels = np.asarray(labels, dtype=objec)
 userData = np.hstack((userData))
 
 
@@ -293,9 +265,6 @@ startIndex = 0
 endIndex = 0 
 dataName = 'SHL'
 os.makedirs('datasetStandardized/'+dataName, exist_ok=True)
-# for i in range(len(userData)):
-#     startIndex = endIndex 
-#     endIndex = startIndex +  userData[i].shape[0]
 hkl.dump(userData,'datasetStandardized/'+dataName+'/clientsData.hkl' )
 hkl.dump(labels,'datasetStandardized/'+dataName+'/clientsLabel.hkl' )
 

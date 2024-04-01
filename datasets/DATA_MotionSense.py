@@ -164,7 +164,6 @@ processedData = []
 processedLabel = []
 clientSize = []
 for clientIndex in range(24):
-    np.append
     processedData.append(np.vstack((clientData[clientIndex])))
     processedLabel.append(np.hstack((clientLabel[clientIndex])))
 
