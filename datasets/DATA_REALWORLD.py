@@ -268,10 +268,16 @@ for orientation in orientations:
 # In[ ]:
 
 
+
+
+
+# In[ ]:
+
+
 # conversion to numpy array
-clientsAccDataByOrientation = np.asarray(clientsAccDataByOrientation)
-clientsGyroDataByOrientation = np.asarray(clientsGyroDataByOrientation)
-clientsLabelByOrientation = np.asarray(clientsLabelByOrientation)
+clientsAccDataByOrientation = np.asarray(clientsAccDataByOrientation, dtype=object)
+clientsGyroDataByOrientation = np.asarray(clientsGyroDataByOrientation, dtype=object)
+clientsLabelByOrientation = np.asarray(clientsLabelByOrientation, dtype=object)
 
 
 # In[ ]:
@@ -306,8 +312,8 @@ normalizedGyro = (clientsGyroDataByOrientation - meanGyro)/stdGyro
 
 stackedOrientationData = []
 for normAcc,normGyro in zip(normalizedAcc,normalizedGyro):
-    stackedOrientationData.append(np.asarray([np.dstack((normAcc,normGyro)) for normAcc,normGyro in zip(normAcc,normGyro)]))
-stackedOrientationData = np.asarray(stackedOrientationData)
+    stackedOrientationData.append(np.asarray([np.dstack((normAcc,normGyro), dtype=object) for normAcc,normGyro in zip(normAcc,normGyro)]))
+stackedOrientationData = np.asarray(stackedOrientationData, dtype=object)
 
 
 # In[ ]:
