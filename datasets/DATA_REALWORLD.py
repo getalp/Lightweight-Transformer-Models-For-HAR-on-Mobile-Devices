@@ -312,7 +312,7 @@ normalizedGyro = (clientsGyroDataByOrientation - meanGyro)/stdGyro
 
 stackedOrientationData = []
 for normAcc,normGyro in zip(normalizedAcc,normalizedGyro):
-    stackedOrientationData.append(np.asarray([np.dstack((normAcc,normGyro), dtype=object) for normAcc,normGyro in zip(normAcc,normGyro)]))
+    stackedOrientationData.append(np.asarray([np.dstack((normAcc,normGyro)) for normAcc,normGyro in zip(normAcc,normGyro)],dtype=object))
 stackedOrientationData = np.asarray(stackedOrientationData, dtype=object)
 
 
