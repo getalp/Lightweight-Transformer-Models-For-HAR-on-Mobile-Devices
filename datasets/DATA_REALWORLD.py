@@ -260,9 +260,9 @@ for orientation in orientations:
         xAccListClient.append(np.vstack((xAccList)))
         xGyrListClient.append(np.vstack((xGyrList)))
         yListClient.append(np.hstack((yList)))
-    clientsAccDataByOrientation.append(np.asarray(xAccListClient))
-    clientsGyroDataByOrientation.append(np.asarray(xGyrListClient))
-    clientsLabelByOrientation.append(np.asarray(yListClient))
+    clientsAccDataByOrientation.append(np.asarray(xAccListClient, dtype=object))
+    clientsGyroDataByOrientation.append(np.asarray(xGyrListClient, dtype=object))
+    clientsLabelByOrientation.append(np.asarray(yListClient, dtype=object))
 
 
 # In[ ]:
