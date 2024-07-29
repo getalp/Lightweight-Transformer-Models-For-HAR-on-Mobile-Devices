@@ -209,11 +209,11 @@ def loadDataset(dataSetName, clientCount, dataConfig, randomSeed, mainDir, Strat
             clientLabelTrain.append(clientLabel[i][trainIndex])
             clientDataTest.append(clientData[i][testIndex])
             clientLabelTest.append(clientLabel[i][testIndex])
-        clientDataTrain = np.asarray(clientDataTrain)
-        clientDataTest = np.asarray(clientDataTest)
+        clientDataTrain = np.asarray(clientDataTrain,dtype  = object)
+        clientDataTest = np.asarray(clientDataTest,dtype  = object)
 
-        clientLabelTrain = np.asarray(clientLabelTrain)
-        clientLabelTest = np.asarray(clientLabelTest)
+        clientLabelTrain = np.asarray(clientLabelTrain,dtype  = object)
+        clientLabelTest = np.asarray(clientLabelTest,dtype  = object)
 
         centralTrainData = np.vstack((clientDataTrain))
         centralTrainLabel = np.hstack((clientLabelTrain))
@@ -268,16 +268,15 @@ def loadDataset(dataSetName, clientCount, dataConfig, randomSeed, mainDir, Strat
             clientOrientationTest[i] = np.hstack((clientOrientationTest[i]))
             clientOrientationTrain[i] = np.hstack((clientOrientationTrain[i]))
 
-        clientOrientationTrain = np.asarray(list(clientOrientationTrain.values()))
-        clientOrientationTest = np.asarray(list(clientOrientationTest.values()))
-
-
-        clientDataTrain = np.asarray(list(clientDataTrain.values()))
-        clientDataTest = np.asarray(list(clientDataTest.values()))
-
-        clientLabelTrain = np.asarray(list(clientLabelTrain.values()))
-        clientLabelTest = np.asarray(list(clientLabelTest.values()))
-
+        clientOrientationTrain = np.asarray(list(clientOrientationTrain.values()),dtype  = object)
+        clientOrientationTest = np.asarray(list(clientOrientationTest.values()),dtype  = object)
+        
+        
+        clientDataTrain = np.asarray(list(clientDataTrain.values()),dtype  = object)
+        clientDataTest = np.asarray(list(clientDataTest.values()),dtype  = object)
+        
+        clientLabelTrain = np.asarray(list(clientLabelTrain.values()),dtype  = object)
+        clientLabelTest = np.asarray(list(clientLabelTest.values()),dtype  = object)
 
         centralTrainData = np.vstack((clientDataTrain))
         centralTrainLabel = np.hstack((clientLabelTrain))
