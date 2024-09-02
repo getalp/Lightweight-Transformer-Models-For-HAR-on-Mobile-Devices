@@ -404,7 +404,9 @@ def HART(input_shape,activityCount, projection_dim = 192,patchSize = 16,timeStep
         branch2Acc = SensorWiseMHA(projectionQuarter,num_heads,0,projectionQuarter,dropPathRate = dropPathRate[layerIndex],dropout_rate = dropout_rate,name = "AccMHA_"+str(layerIndex))(x1)
 
         branch2Gyro = SensorWiseMHA(projectionQuarter,num_heads,projectionQuarter + projectionHalf ,projection_dim,dropPathRate = dropPathRate[layerIndex],dropout_rate = dropout_rate, name = "GyroMHA_"+str(layerIndex))(x1)
-        concatAttention = tf.concat((branch2Acc,branch1,branch2Gyro),axis= 2 )
+        concatAttention = layers.Concatenate(axis=2)((branch2Acc,branch1,branch2Gyro))
+
+        
         x2 = layers.Add()([concatAttention, encoded_patches])
         x3 = layers.LayerNormalization(epsilon=1e-6)(x2)
         x3 = mlp2(x3, hidden_units=transformer_units, dropout_rate=dropout_rate)
@@ -502,8 +504,9 @@ def sensorWiseTransformer_block(xAcc, xGyro, patchCount,transformer_layers, proj
     projectionQuarter = projection_dim // 4
     projectionHalf = projection_dim // 2
     dropPathRate = np.linspace(0, dropout_rate* 10,transformer_layers) * 0.1
+    x = layers.Concatenate(axis=2)((xAcc,xGyro))
 
-    x = tf.concat((xAcc,xGyro),axis= 2 )
+    
     for layerIndex in range(transformer_layers):
         # Layer normalization 1.
         x1 = layers.LayerNormalization(epsilon=1e-6, name = "normalizedInputs_"+str(layerIndex))(x)
@@ -519,7 +522,9 @@ def sensorWiseTransformer_block(xAcc, xGyro, patchCount,transformer_layers, proj
 
         branch2Acc = SensorWiseMHA(projectionQuarter,num_heads,0,projectionQuarter,dropPathRate = dropPathRate[layerIndex],dropout_rate = dropout_rate,name = "AccMHA_"+str(layerIndex))(x1)
         branch2Gyro = SensorWiseMHA(projectionQuarter,num_heads,projectionQuarter + projectionHalf ,projection_dim,dropPathRate = dropPathRate[layerIndex],dropout_rate = dropout_rate,name = "GyroMHA_"+str(layerIndex))(x1)
-        concatAttention = tf.concat((branch2Acc,branch1,branch2Gyro),axis= 2 )
+        concatAttention = layers.Concatenate(axis=2)((branch2Acc,branch1,branch2Gyro))
+
+        
         # Skip connection 1.
         x2 = layers.Add()([concatAttention, x])
         # Layer normalization 2.
@@ -604,7 +609,7 @@ def mobileHART_XS(input_shape,activityCount,projectionDims = [96,120,144],filter
     accX = mv2Block(accX,expansion_factor,filterCount)
     gyroX = mv2Block(gyroX,expansion_factor,filterCount)
     accX, gyroX  = sensorWiseHART(accX,gyroX, num_blocks=2, projection_dim=projectionDims[0])
-    x = tf.concat((accX,gyroX), axis = 2)
+    x = layers.Concatenate(axis=2)((accX,gyroX))    
     x = layers.Dense(projectionDims[0],activation=tf.nn.swish)(x)
     x = layers.Dropout(dropout_rate)(x)
 
@@ -640,7 +645,7 @@ def mobileHART_XXS(input_shape,activityCount,projectionDims = [64,80,96],filterC
     accX = mv2Block(accX,expansion_factor,filterCount)
     gyroX = mv2Block(gyroX,expansion_factor,filterCount)
     accX, gyroX  = sensorWiseHART(accX,gyroX, num_blocks=2, projection_dim=projectionDims[0])
-    x = tf.concat((accX,gyroX), axis = 2)
+    x = layers.Concatenate(axis=2)((accX,gyroX))    
     x = layers.Dense(projectionDims[0],activation=tf.nn.swish)(x)
     x = layers.Dropout(dropout_rate)(x)
 
