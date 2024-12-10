@@ -49,10 +49,13 @@ If our project is helpful for your research, please consider citing :
 ***09/02/2023***
 Initial commit: Code of HART/MobileHART is released.
 
+***10/12/2024***
+Update: HART now supports training on CPU and updated to work with TF 2.18
+
 ## 2. Installation
 ### 2.1 Dependencies
 
-This code was implemented with Python 3.7, Tensorflow 2.10.1 and CUDA 11.2. Please refer to [the official installation](https://www.tensorflow.org/install). If CUDA 11.2 has been properly installed : 
+This code was developed with Python 3.7, Tensorflow 2.10.1 and CUDA 11.2. Please refer to [the official installation](https://www.tensorflow.org/install). If CUDA 11.2 has been properly installed : 
 ```
 pip install tensorflow==2.10.1
 ```
@@ -82,7 +85,7 @@ See scripts in dataset folders. e.g, for the UCI dataset, run DATA_UCI.py
 For running the 'Combined' dataset training and evaluation pipeline, all datasets must first be downloaded and processed.
 Please run all scripts in the 'datasets' folder.
 
-Tip: Manually downloading the datasets and placing them in the 'datasets/dataset' folder may be a good alternative for stabiltiy if the download pipeline keeps failing VIA the provided scripts.
+Tip: Manually downloading the datasets and placing them in the 'datasets/dataset' folder may be a good alternative for stability if the download pipeline keeps failing VIA the provided scripts.
 
 UCI
 ```
@@ -110,8 +113,6 @@ http://www.shl-dataset.org/download/
 ```
 
 ## 3. Quick Start
-
-Due to constraints with Tensorflow, the model currently can only be trained on GPU and will not work when trained with CPU.
 
 After running all or the desired datasets for usage in the DATA scripts in the dataset folder, launch either the jupyter notebook or python script to start the training pipeline.
 
