@@ -162,9 +162,65 @@ def softDepthConv(inputs):
 
 
 
+# this was the old implementation (which only works on GPU), uncomment this if you want to use the old version, and comment out the new version (that works also on CPU).
+
+# class liteFormer(layers.Layer):
+#     def __init__(self,startIndex,stopIndex, projectionSize, kernelSize = 16, attentionHead = 3, use_bias=False, dropPathRate = 0.0,dropout_rate = 0,**kwargs):
+#         super(liteFormer, self).__init__(**kwargs)
+#         self.use_bias = use_bias
+#         self.startIndex = startIndex
+#         self.stopIndex = stopIndex
+#         self.kernelSize = kernelSize
+#         self.softmax = tf.nn.softmax
+#         self.projectionSize = projectionSize
+#         self.attentionHead = attentionHead 
+#         self.DropPathLayer = DropPath(dropPathRate)
+#         self.projectionHalf = projectionSize // 2
+#     def build(self,inputShape):
+#         self.depthwise_kernel = [self.add_weight(
+#             shape=(self.kernelSize,1,1),
+#             initializer="glorot_uniform",
+#             trainable=True,
+#             name="convWeights"+str(_),
+#             dtype="float32") for _ in range(self.attentionHead)]
+#         if self.use_bias:
+#             self.convBias = self.add_weight(
+#                 shape=(self.attentionHead,), 
+#                 initializer="glorot_uniform", 
+#                 trainable=True,  
+#                 name="biasWeights",
+#                 dtype="float32"
+#             )
+        
+#     def call(self, inputs,training=None):
+#         formattedInputs = inputs[:,:,self.startIndex:self.stopIndex]
+#         inputShape = tf.shape(formattedInputs)
+#         reshapedInputs = tf.reshape(formattedInputs,(-1,self.attentionHead,inputShape[1]))
+#         if(training):
+#             for convIndex in range(self.attentionHead):
+#                 self.depthwise_kernel[convIndex].assign(self.softmax(self.depthwise_kernel[convIndex], axis=0))
+#         convOutputs = tf.convert_to_tensor([tf.nn.conv1d(
+#             reshapedInputs[:,convIndex:convIndex+1,:],
+#             self.depthwise_kernel[convIndex],
+#             stride = 1,
+#             padding = 'SAME',
+#             data_format='NCW',) for convIndex in range(self.attentionHead) ])
+#         convOutputsDropPath = self.DropPathLayer(convOutputs)
+#         localAttention = tf.reshape(convOutputsDropPath,(-1,inputShape[1],self.projectionSize))
+#         return localAttention
+#     def get_config(self):
+#         config = super().get_config().copy()
+#         config.update({
+#             'use_bias': self.use_bias,
+#             'kernelSize': self.kernelSize,
+#             'startIndex': self.startIndex,
+#             'stopIndex': self.stopIndex,
+#             'projectionSize': self.projectionSize,
+#             'attentionHead': self.attentionHead,})
+#         return config          
 
 class liteFormer(layers.Layer):
-    def __init__(self,startIndex,stopIndex, projectionSize, kernelSize = 16, attentionHead = 3, use_bias=False, dropPathRate = 0.0,dropout_rate = 0,**kwargs):
+    def __init__(self, startIndex, stopIndex, projectionSize, kernelSize=16, attentionHead=3, use_bias=False, dropPathRate=0.0, dropout_rate=0, **kwargs):
         super(liteFormer, self).__init__(**kwargs)
         self.use_bias = use_bias
         self.startIndex = startIndex
@@ -172,41 +228,53 @@ class liteFormer(layers.Layer):
         self.kernelSize = kernelSize
         self.softmax = tf.nn.softmax
         self.projectionSize = projectionSize
-        self.attentionHead = attentionHead 
+        self.attentionHead = attentionHead
         self.DropPathLayer = DropPath(dropPathRate)
         self.projectionHalf = projectionSize // 2
-    def build(self,inputShape):
-        self.depthwise_kernel = [self.add_weight(
-            shape=(self.kernelSize,1,1),
-            initializer="glorot_uniform",
-            trainable=True,
-            name="convWeights"+str(_),
-            dtype="float32") for _ in range(self.attentionHead)]
+
+    def build(self, inputShape):
+        # Initialize depthwise kernels
+        self.depthwise_kernel = [
+            self.add_weight(
+                shape=(self.kernelSize, 1, 1),
+                initializer="glorot_uniform",
+                trainable=True,
+                name=f"convWeights{_}",
+                dtype="float32"
+            ) for _ in range(self.attentionHead)
+        ]
+        # Initialize convolution bias if needed
         if self.use_bias:
             self.convBias = self.add_weight(
-                shape=(self.attentionHead,), 
-                initializer="glorot_uniform", 
-                trainable=True,  
+                shape=(self.attentionHead,),
+                initializer="glorot_uniform",
+                trainable=True,
                 name="biasWeights",
                 dtype="float32"
             )
-        
-    def call(self, inputs,training=None):
-        formattedInputs = inputs[:,:,self.startIndex:self.stopIndex]
+
+    def call(self, inputs, training=None):
+        # Format inputs
+        formattedInputs = inputs[:, :, self.startIndex:self.stopIndex]
         inputShape = tf.shape(formattedInputs)
-        reshapedInputs = tf.reshape(formattedInputs,(-1,self.attentionHead,inputShape[1]))
-        if(training):
+        reshapedInputs = tf.reshape(formattedInputs, (-1, inputShape[1], self.attentionHead))
+        if training:
             for convIndex in range(self.attentionHead):
                 self.depthwise_kernel[convIndex].assign(self.softmax(self.depthwise_kernel[convIndex], axis=0))
-        convOutputs = tf.convert_to_tensor([tf.nn.conv1d(
-            reshapedInputs[:,convIndex:convIndex+1,:],
-            self.depthwise_kernel[convIndex],
-            stride = 1,
-            padding = 'SAME',
-            data_format='NCW',) for convIndex in range(self.attentionHead) ])
+        convOutputs = [
+            tf.nn.conv1d(
+                reshapedInputs[:, :, convIndex:convIndex + 1],
+                self.depthwise_kernel[convIndex],
+                stride=1,
+                padding='SAME',
+                data_format='NWC' 
+            ) for convIndex in range(self.attentionHead)
+        ]
+        convOutputs = tf.stack(convOutputs, axis=2)
         convOutputsDropPath = self.DropPathLayer(convOutputs)
-        localAttention = tf.reshape(convOutputsDropPath,(-1,inputShape[1],self.projectionSize))
+        localAttention = tf.reshape(convOutputsDropPath, (-1, inputShape[1], self.projectionSize))
         return localAttention
+
     def get_config(self):
         config = super().get_config().copy()
         config.update({
@@ -215,8 +283,10 @@ class liteFormer(layers.Layer):
             'startIndex': self.startIndex,
             'stopIndex': self.stopIndex,
             'projectionSize': self.projectionSize,
-            'attentionHead': self.attentionHead,})
-        return config          
+            'attentionHead': self.attentionHead,
+        })
+        return config
+
 
 class mixAccGyro(layers.Layer):
     def __init__(self,projectionQuarter,projectionHalf,projection_dim,**kwargs):

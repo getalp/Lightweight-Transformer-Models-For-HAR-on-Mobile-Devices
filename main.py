@@ -46,7 +46,6 @@ import __main__ as main
 
 import model 
 import utils
-from keras_flops import get_flops
 
 
 # In[ ]:
@@ -70,7 +69,7 @@ architecture = "HART"
 # MobileHART, HART
 
 # RealWorld,HHAR,UCI,SHL,MotionSense, COMBINED
-dataSetName = 'RealWorld'
+dataSetName = 'HHAR'
 
 #BALANCED, UNBALANCED
 dataConfig = "BALANCED"
@@ -90,7 +89,7 @@ learningRate = 5e-3
 dropout_rate = 0.3
 
 # local epoch
-localEpoch = 1
+localEpoch = 200
 # or 4 
 frameLength = 16
 
@@ -407,7 +406,7 @@ model_classifier.summary()
 # In[ ]:
 
 
-checkpoint_filepath = filepath+"bestValcheckpoint.h5"
+checkpoint_filepath = filepath+"bestValcheckpoint.weights.h5"
 checkpoint_callback = tf.keras.callbacks.ModelCheckpoint(
     checkpoint_filepath,
     monitor="val_accuracy",
@@ -429,7 +428,7 @@ history = model_classifier.fit(
 )
 end_time = time.time() - start_time
 
-model_classifier.save_weights(filepath + 'bestTrain.h5')
+model_classifier.save_weights(filepath + 'bestTrain.weights.h5')
 model_classifier.load_weights(checkpoint_filepath)
 _, accuracy = model_classifier.evaluate(centralTestData, centralTestLabel)
 print(f"Test accuracy: {round(accuracy * 100, 2)}%")
@@ -626,27 +625,6 @@ tflite_model = converter.convert()
 # Save the model.
 with open(filepath +architecture+'.tflite', 'wb') as f:
     f.write(tflite_model)
-
-
-# In[ ]:
-
-
-# Saves the training time per round
-flops = get_flops(model_classifier, batch_size=1)
-modelStatistics = {
-    "NumberOfParams:": str(model_classifier.count_params()),
-    "flops": str(flops),
-    "TrainingTime": str(end_time / 360),
-}
-with open(filepath +'numberOfParams.csv','w') as f:
-    w = csv.writer(f)
-    w.writerows(modelStatistics.items())
-
-
-# In[ ]:
-
-
-print("Total Number of Parapmeters : "+str(model_classifier.count_params()))
 
 
 # In[ ]:
